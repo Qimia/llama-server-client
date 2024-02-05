@@ -1,0 +1,48 @@
+image: public.ecr.aws/h7r6l8b8/qimia-ai-dind-aws:latest
+
+.dev-tags: &dev-tags
+  tags:
+    - gitlab-org-docker
+
+stages:
+  - version
+  - build
+
+version:
+  stage: version
+  script:
+    - |
+      if [ -n "$CI_COMMIT_TAG" ]; then
+        echo "$CI_COMMIT_TAG-prod" > .version
+      elif [[ $CI_COMMIT_BRANCH == release/* ]] || [[ $CI_COMMIT_BRANCH == hotfix/* ]]; then
+        echo "$CI_COMMIT_SHORT_SHA-preprod" > .version
+      else
+        echo "$CI_COMMIT_SHORT_SHA" > .version
+      fi
+    - echo done
+  <<: *dev-tags
+  only:
+    - dev
+    - merge_requests
+    - tags
+    - /^release\/.+$/
+    - /^hotfix\/.+$/
+  artifacts:
+    paths:
+      - .version
+
+build_project:
+  image: python:3.11-slim
+  stage: build
+  script:
+    - python setup.py sdist bdist_wheel
+  artifacts:
+    paths:
+      - dist/
+  <<: *dev-tags
+  only:
+    - dev
+    - merge_requests
+    - tags
+    - /^release\/.+$/
+    - /^hotfix\/.+$/

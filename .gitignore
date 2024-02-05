@@ -1,0 +1,9 @@
+# Default ignored files
+.idea/
+build/
+dist/
+venv/
+llama_server_client/.ipynb_checkpoints/
+llama_server_client.egg-info/
+__pycache__/
+/.venv/
