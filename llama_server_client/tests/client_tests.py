@@ -5,11 +5,11 @@ from typing import Optional
 
 import pytest
 
-from zmq_ai_client_python.schema import HealthCheck
-from zmq_ai_client_python.client import LlamaClient
-from zmq_ai_client_python.schema.completion import MessageRole, ChatCompletion
-from zmq_ai_client_python.schema.completion import Message, ChatCompletionRequest
-from zmq_ai_client_python.schema.session_state import SessionState, SessionStateRequest
+from llama_server_client.schema import HealthCheck
+from llama_server_client.client import LlamaClient
+from llama_server_client.schema.completion import MessageRole, ChatCompletion
+from llama_server_client.schema.completion import Message, ChatCompletionRequest
+from llama_server_client.schema.session_state import SessionState, SessionStateRequest
 
 
 def send_chat_completion_request(client: LlamaClient, request: ChatCompletionRequest) -> Optional[ChatCompletion]:
